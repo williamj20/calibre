@@ -70,3 +70,10 @@ jobs:
                   runuser -u ci -- python setup.py test --under-sanitize
                   echo "Running test_rs"
                   runuser -u ci -- python setup.py test_rs
+
+            - name: Update translations on Transifex
+              if: ${{ github.event_name == 'push' && github.ref =='refs/heads/master'}}
+              env:
+                tx: ${{ secrets.tx }}
+              run: |
+                runuser -u ci -- python setup/unix-ci.py pot
